@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create project</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <script type="text/javascript" th:src="@{/js/bootstrap/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar(1)"></div>
+<br/><br/>
+<div class="row justify-content-center">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="container">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h1>Create new project</h1>
+                    <form th:action="@{/create-project}" method="post">
+                        <br/>
+                        <div class="form-group">
+                            <input type="text"
+                                   id="name"
+                                   name="name"
+                                   class="form-control"
+                                   autofocus="autofocus"
+                                   placeholder="Name"/>
+                        </div>
+                        <br/>
+                        <div class="form-group">
+                            <input type="text"
+                                   id="description"
+                                   name="description"
+                                   class="form-control"
+                                   autofocus="autofocus"
+                                   placeholder="Description"/>
+                        </div>
+                        <br/>
+                        <div class="form-group">
+                            <input type="submit"
+                                   name="register-submit"
+                                   id="register-submit"
+                                   class="btn btn-primary form-btn"
+                                   value="Create"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+</body>
+</html>
