@@ -1,0 +1,130 @@
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'Parola.123';
+GRANT ALL PRIVILEGES ON * . * TO 'user'@'localhost';
+FLUSH PRIVILEGES;
+---------------------------------------------------------------
+CREATE DATABASE ltw_project;
+---------------------------------------------------------------
+
+CREATE TABLE `ltw_project`.`user` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE);
+
+CREATE TABLE `ltw_project`.`project` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE `ltw_project`.`user_project` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `user_id`
+    FOREIGN KEY (`id`)
+    REFERENCES `ltw_project`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `project_id`
+    FOREIGN KEY (`id`)
+    REFERENCES `ltw_project`.`project` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `ltw_project`.`access_right` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `right` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `user`
+    FOREIGN KEY (`id`)
+    REFERENCES `ltw_project`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `ltw_project`.`project_access` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `project`
+    FOREIGN KEY (`id`)
+    REFERENCES `ltw_project`.`project` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `access`
+    FOREIGN KEY (`id`)
+    REFERENCES `ltw_project`.`access_right` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `ltw_project`.`label` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE);
+
+CREATE TABLE `ltw_project`.`team` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE `ltw_project`.`task` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(45) NULL,
+  `status` VARCHAR(45) NOT NULL,
+  `creation_date` DATETIME NOT NULL,
+  `close_date` DATETIME NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `owner_id`
+    FOREIGN KEY (`id`)
+    REFERENCES `ltw_project`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `team_id`
+    FOREIGN KEY (`id`)
+    REFERENCES `ltw_project`.`team` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `proj_id`
+    FOREIGN KEY (`id`)
+    REFERENCES `ltw_project`.`project` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+ALTER TABLE `ltw_project`.`team` 
+ADD CONSTRAINT `task_id`
+  FOREIGN KEY (`id`)
+  REFERENCES `ltw_project`.`task` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+CREATE TABLE `ltw_project`.`user_team` (
+  `id` INT NOT NULL  AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `member`
+    FOREIGN KEY (`id`)
+    REFERENCES `ltw_project`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `task`
+    FOREIGN KEY (`id`)
+    REFERENCES `ltw_project`.`task` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `ltw_project`.`comment` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `date` DATETIME NOT NULL,
+  `content` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `author`
+    FOREIGN KEY (`id`)
+    REFERENCES `ltw_project`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `target`
+    FOREIGN KEY (`id`)
+    REFERENCES `ltw_project`.`task` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
