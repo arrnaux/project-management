@@ -1,5 +1,6 @@
 package com.taskmanagement.model;
 
+import com.taskmanagement.types.TaskPriority;
 import com.taskmanagement.types.TaskStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,32 +23,11 @@ public class Task {
 
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
-    private User owner;
-
     private TaskStatus status;
 
-    private Date creationDate;
-
-    private Date closeDate;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "team_id", referencedColumnName = "id")
-    private Team team;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "task_label",
-            joinColumns = {@JoinColumn(name = "task_id")},
-            inverseJoinColumns = {@JoinColumn(name = "label_id")}
-    )
-    private Set<Label> labels = new HashSet<>();
+    private TaskPriority priority;
 
     @ManyToOne
     @JoinColumn(name="project_id", nullable=false)
     private Project project;
-
-    @OneToMany(mappedBy="task")
-    private Set<Comment> comments;
 }
