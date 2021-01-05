@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public void createUser(User user) {
+    public void saveUser(User user) {
         userRepository.save(user);
     }
 
@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User userLogin(String email, String password) {
-        List<User> userList = userRepository.findByEmailAndPassword(email, password);
+    public User userLogin(User user) {
+        List<User> userList = userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
         if(!userList.isEmpty()) {
             return userList.get(0);
         }

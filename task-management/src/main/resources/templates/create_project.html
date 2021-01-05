@@ -24,20 +24,21 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h1>Create new project</h1>
-                    <form th:action="@{/create-project}" method="post">
+                    <form th:action="@{/create-project}" th:object="${project}" method="post">
                         <br/>
                         <div class="form-group">
                             <input type="text"
-                                   id="name"
+                                   th:field="*{name}"
                                    name="name"
                                    class="form-control"
                                    autofocus="autofocus"
-                                   placeholder="Name"/>
+                                   placeholder="Name"
+                                   required/>
                         </div>
                         <br/>
                         <div class="form-group">
                             <input type="text"
-                                   id="description"
+                                   th:field="*{description}"
                                    name="description"
                                    class="form-control"
                                    autofocus="autofocus"
@@ -47,9 +48,19 @@
                         <div class="form-group">
                             <input type="submit"
                                    name="register-submit"
-                                   id="register-submit"
                                    class="btn btn-primary form-btn"
                                    value="Create"/>
+                        </div>
+                        <br/>
+                        <div th:if="${status == 'success'}">
+                            <div class="alert alert-info">
+                                The project was created successfully.
+                            </div>
+                        </div>
+                        <div th:if="${status == 'error'}">
+                            <div class="alert alert-danger">
+                                The name is required.
+                            </div>
                         </div>
                     </form>
                 </div>

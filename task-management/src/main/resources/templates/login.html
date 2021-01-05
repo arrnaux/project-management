@@ -17,23 +17,25 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h1>Login</h1>
-                    <form th:action="@{/login}" method="post">
+                    <form th:action="@{/login}" th:object="${user}" method="post">
                         <br/>
                         <div class="form-group">
-                            <input type="text"
-                                   id="email"
+                            <input type="email"
+                                   th:field="*{email}"
                                    name="email"
                                    class="form-control"
                                    autofocus="autofocus"
-                                   placeholder="Email"/>
+                                   placeholder="Email"
+                                   required/>
                         </div>
                         <br/>
                         <div class="form-group">
                             <input type="password"
-                                   id="password"
+                                   th:field="*{password}"
                                    name="password"
                                    class="form-control"
-                                   placeholder="Password"/>
+                                   placeholder="Password"
+                                   required/>
                         </div>
                         <br/>
                         <div class="form-group">
@@ -41,7 +43,6 @@
                                 <div class="col-sm-6 col-sm-offset-3">
                                     <input type="submit"
                                            name="login-submit"
-                                           id="login-submit"
                                            class="btn btn-primary form-btn"
                                            value="Log In"/>
                                 </div>

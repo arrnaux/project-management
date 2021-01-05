@@ -28,4 +28,8 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "project_id")}
     )
     private Set<Project> projects = new HashSet<>();
+
+    public void addProject(Project project) {
+        projects.add(project);
+    }
 }

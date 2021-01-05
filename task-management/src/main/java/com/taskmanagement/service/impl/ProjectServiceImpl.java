@@ -15,7 +15,7 @@ public class ProjectServiceImpl implements ProjectService {
     ProjectRepository projectRepository;
 
     @Override
-    public void createProject(Project project) {
+    public void saveProject(Project project) {
         projectRepository.save(project);
     }
 }

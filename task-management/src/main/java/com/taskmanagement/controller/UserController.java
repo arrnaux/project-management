@@ -5,9 +5,11 @@ import com.taskmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
@@ -16,16 +18,17 @@ public class UserController {
     UserService userService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/login")
-    public String getLogin() {
+    public String getLogin(Model model) {
+        model.addAttribute("user", new User());
         return "login";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/login")
-    public String getLogin(@RequestParam String email, @RequestParam String password, Model model) {
-        User user = userService.userLogin(email, password);
-        if(user != null) {
-            model.addAttribute("user", user);
-            return "home";
+    public String getLogin(@ModelAttribute User user, Model model, HttpSession session) {
+        User currentUser = userService.userLogin(user);
+        if (currentUser != null) {
+            session.setAttribute("user", currentUser);
+            return "redirect:projects";
         } else {
             String status = "error";
             model.addAttribute("status", status);
@@ -34,38 +37,31 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/logout")
-    public String getLogout(Model model) {
+    public String getLogout(Model model, HttpSession session) {
+        session.invalidate();
         String status = "logout";
         model.addAttribute("status", status);
-        return "login";
+        return "redirect:login";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/register")
-    public String getRegister() {
+    public String getRegister(Model model) {
+        model.addAttribute("user", new User());
         return "register";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/register")
-    public String getRegister(@RequestParam String name, @RequestParam String email, @RequestParam String password,
-                              @RequestParam String passwordRe, Model model) {
-        if(password.equals(passwordRe)) {
-            if(userService.isEmailFree(email)) {
-                User user = new User();
-                user.setName(name);
-                user.setEmail(email);
-                user.setPassword(password);
-                userService.createUser(user);
-                return "home";
-            } else {
-                String status = "emailError";
-                model.addAttribute("status", status);
-                return "register";
-            }
+    public String getRegister(@ModelAttribute User user, Model model, HttpSession session) {
+        if (userService.isEmailFree(user.getEmail())) {
+            userService.saveUser(user);
+            session.setAttribute("user", user);
+            return "redirect:projects";
         } else {
-            String status = "passError";
+            String status = "error";
             model.addAttribute("status", status);
             return "register";
         }
+
 
     }
 
