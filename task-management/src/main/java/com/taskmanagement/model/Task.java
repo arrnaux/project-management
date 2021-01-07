@@ -1,11 +1,11 @@
 package com.taskmanagement.model;
 
-import com.taskmanagement.types.TaskPriority;
-import com.taskmanagement.types.TaskStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Set;
 
 @NoArgsConstructor
 @Data
@@ -15,7 +15,8 @@ public class Task {
     private String id;
     private String name;
     private String description;
-    private TaskStatus status;
-    private TaskPriority priority;
-    private Project project;
+    private String status;
+    private String priority;
+    private String projectId;
+    private Set<String> usersId;
 }

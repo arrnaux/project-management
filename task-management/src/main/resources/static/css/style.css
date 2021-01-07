@@ -1,11 +1,12 @@
 body {
     background-color: #f7f7f9;
 }
-
 .form-btn {
     width: 30%;
 }
-
 .custom-navbar {
     padding: 5px 15px;
+}
+.custom-container {
+    margin-top: 20px;
 }

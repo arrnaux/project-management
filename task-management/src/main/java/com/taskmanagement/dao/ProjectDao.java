@@ -2,8 +2,12 @@ package com.taskmanagement.dao;
 
 import com.taskmanagement.model.Project;
 
-public interface ProjectDao {
-    void insertProject(Project project);
+import java.util.List;
 
-    Project findProjectByUser(String userId, String name, String description);
+public interface ProjectDao {
+    void saveProject(Project project);
+
+    List<Project> findProjectsByUser(String userId);
+
+    Project findProjectById(String id);
 }

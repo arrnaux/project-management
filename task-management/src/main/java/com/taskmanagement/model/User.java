@@ -19,4 +19,5 @@ public class User {
     private String email;
     private String password;
     private Set<String> projectsId;
+    private Set<String> tasksId;
 }

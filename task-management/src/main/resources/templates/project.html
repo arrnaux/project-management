@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Project</title>
     <script type="text/javascript" th:src="@{/js/bootstrap/bootstrap.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap/bootstrap.bundle.js}"></script>
     <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
@@ -17,32 +17,24 @@
         <div class="container">
             <div class="card text-center">
                 <div class="card-body">
-                    <h1>My projects</h1>
-                    <hr/>
-                    <br/>
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Description</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <th:block th:each="project : ${projects}">
-                        <tr>
-                            <td th:text="${project.name}"></td>
-                            <td th:text="${project.description}"></td>
-                            <td>
-                                <form th:action="@{'/projects/' + ${project.id}}" method="get">
-                                    <button class="btn btn-primary btn-sm">Open</button>
-                                </form>
-                            </td>
-                        </tr>
-                        </th:block>
-                        </tbody>
-                    </table>
+                    <h1 th:text="${currentProject.name}"></h1>
+                    <div th:text="${currentProject.description}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="container">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <a class="btn btn-success" href="/create-task" role="button">Add new task</a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a class="btn btn-danger" href="#" role="button">Delete project</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -51,25 +43,22 @@
         <div class="container custom-container">
             <div class="card text-center">
                 <div class="card-body">
-                    <h1>My tasks</h1>
+                    <h3>Tasks</h3>
                     <hr/>
-                    <br/>
                     <table class="table table-hover">
                         <thead>
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Description</th>
-                            <th scope="col">Project</th>
                             <th scope="col">Status</th>
                             <th scope="col">Priority</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <th:block th:each="task : ${tasks}">
+                        <th:block th:each="task : ${currentTasks}">
                             <tr>
                                 <td th:text="${task.name}"></td>
                                 <td th:text="${task.description}"></td>
-                                <td th:text="${task.projectId}"></td>
                                 <td th:text="${task.status}"></td>
                                 <td th:text="${task.priority}"></td>
                             </tr>

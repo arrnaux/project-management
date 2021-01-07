@@ -55,6 +55,7 @@ public class UserController {
     public String getRegister(@ModelAttribute User user, Model model, HttpSession session) {
         if (userDao.findUserByEmail(user.getEmail()) == null) {
             user.setProjectsId(new HashSet<>());
+            user.setTasksId(new HashSet<>());
             userDao.saveUser(user);
             session.setAttribute("user", user);
             return "redirect:projects";

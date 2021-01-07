@@ -1,7 +1,7 @@
 package com.taskmanagement.dao.impl;
 
-import com.taskmanagement.dao.ProjectDao;
-import com.taskmanagement.model.Project;
+import com.taskmanagement.dao.TaskDao;
+import com.taskmanagement.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -11,31 +11,31 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ProjectDaoImpl implements ProjectDao {
+public class TaskDaoImpl implements TaskDao {
 
     @Autowired
     MongoTemplate mongoTemplate;
 
-    final String COLLECTION = "project";
+    final String COLLECTION = "task";
 
     @Override
-    public void saveProject(Project project) {
-        mongoTemplate.save(project, COLLECTION);
+    public void saveTask(Task task) {
+        mongoTemplate.save(task, COLLECTION);
     }
 
     @Override
-    public List<Project> findProjectsByUser(String userId) {
+    public List<Task> findTaskByUser(String userId) {
         Query query = new Query();
         query.addCriteria(new Criteria().andOperator(
                 Criteria.where("usersId").all(userId)));
-        return mongoTemplate.find(query, Project.class);
+        return mongoTemplate.find(query, Task.class);
     }
 
     @Override
-    public Project findProjectById(String id) {
+    public List<Task> findTaskByProject(String projectId) {
         Query query = new Query();
         query.addCriteria(new Criteria().andOperator(
-                Criteria.where("id").is(id)));
-        return mongoTemplate.findOne(query, Project.class);
+                Criteria.where("projectId").is(projectId)));
+        return mongoTemplate.find(query, Task.class);
     }
 }
