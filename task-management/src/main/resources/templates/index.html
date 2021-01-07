@@ -27,10 +27,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <th:block th:each="project : ${user.projects}">
+                        <th:block th:each="project : ${user.projectsId}">
                         <tr>
-                            <td th:text="${project.name}"></td>
-                            <td th:text="${project.description}"></td>
+                            <td th:text="${project}"></td>
+                            <td>description</td>
                         </tr>
                         </th:block>
                         </tbody>

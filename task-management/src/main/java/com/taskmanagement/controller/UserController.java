@@ -1,7 +1,7 @@
 package com.taskmanagement.controller;
 
+import com.taskmanagement.dao.UserDao;
 import com.taskmanagement.model.User;
-import com.taskmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashSet;
 
 @Controller
 public class UserController {
 
     @Autowired
-    UserService userService;
+    UserDao userDao;
 
     @RequestMapping(method = RequestMethod.GET, value = "/login")
     public String getLogin(Model model) {
@@ -25,7 +26,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public String getLogin(@ModelAttribute User user, Model model, HttpSession session) {
-        User currentUser = userService.userLogin(user);
+        User currentUser = userDao.findUserByEmailAndPassword(user);
         if (currentUser != null) {
             session.setAttribute("user", currentUser);
             return "redirect:projects";
@@ -52,8 +53,9 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     public String getRegister(@ModelAttribute User user, Model model, HttpSession session) {
-        if (userService.isEmailFree(user.getEmail())) {
-            userService.saveUser(user);
+        if (userDao.findUserByEmail(user.getEmail()) == null) {
+            user.setProjectsId(new HashSet<>());
+            userDao.saveUser(user);
             session.setAttribute("user", user);
             return "redirect:projects";
         } else {

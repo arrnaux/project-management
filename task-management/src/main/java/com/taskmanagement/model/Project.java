@@ -1,30 +1,20 @@
 package com.taskmanagement.model;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
-@Getter
-@Setter
-@Entity
-@Table(name = "project")
+@Data
+@Document(collection = "project")
 public class Project {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private String id;
     private String name;
-
     private String description;
-
-    @ManyToMany(mappedBy = "projects", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<User> users = new HashSet<>();
-
-    @OneToMany(mappedBy="project")
+    private Set<String> usersId;
     private Set<Task> tasks;
 }
