@@ -48,21 +48,5 @@ public class HibernateUtil {
         SessionFactory sessionFactory = metadata.getSessionFactoryBuilder().build();
         // Session session = sessionFactory.getCurrentSession();
         return sessionFactory;
-
-//        Configuration configuration = new Configuration();
-//        InputStream inputStream = this.getClass().getClassLoader().
-//                getResourceAsStream("hibernate-mysql.properties");
-//        Properties hibernateProperties = new Properties();
-//        hibernateProperties.load(inputStream);
-//        configuration.setProperties(hibernateProperties);
-//
-//        configuration.addAnnotatedClass(User.class);
-//        configuration.addAnnotatedClass(Project.class);
-//        configuration.addAnnotatedClass(Task.class);
-//
-//        ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().
-//                applySettings(configuration.getProperties()).buildServiceRegistry();
-//        SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-//        return sessionFactory;
     }
 }
