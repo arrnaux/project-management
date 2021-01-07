@@ -1,15 +1,16 @@
 package com.taskmanagement.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "project")
 public class Project {
@@ -21,12 +22,8 @@ public class Project {
 
     private String description;
 
-    @ManyToMany(mappedBy = "projects", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "projects", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<>();
-
-    public void addUser(User user) {
-        users.add(user);
-    }
 
     @OneToMany(mappedBy="project")
     private Set<Task> tasks;

@@ -5,3 +5,7 @@ body {
 .form-btn {
     width: 30%;
 }
+
+.custom-navbar {
+    padding: 5px 15px;
+}
