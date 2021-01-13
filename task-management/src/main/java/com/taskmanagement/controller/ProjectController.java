@@ -72,13 +72,12 @@ public class ProjectController {
                 model.addAttribute("status", "error");
                 return "create_project";
             }
-
         }
         return "redirect:login";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/projects/{id}")
-    public String getProducts(@PathVariable("id") String projectId, Model model, HttpSession session) {
+    @RequestMapping(method = RequestMethod.GET, value = "/project/{id}")
+    public String getProject(@PathVariable("id") String projectId, Model model, HttpSession session) {
         if (session.getAttribute("user") != null) {
             Project currentProject = projectDao.findProjectById(projectId);
             List<Task> currentTasks = taskDao.findTaskByProject(projectId);
@@ -87,6 +86,16 @@ public class ProjectController {
             model.addAttribute("currentTasks", currentTasks);
             model.addAttribute("user", session.getAttribute("user"));
             return "project";
+        }
+        return "redirect:login";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/delete-project/{id}")
+    public String deleteProject(@PathVariable("id") String projectId, HttpSession session) {
+        if (session.getAttribute("user") != null) {
+            projectDao.deleteProject(projectId);
+            taskDao.deleteTaskByProject(projectId);
+            return "redirect:/projects";
         }
         return "redirect:login";
     }

@@ -10,4 +10,10 @@ public interface TaskDao {
     List<Task> findTaskByUser(String userId);
 
     List<Task> findTaskByProject(String projectId);
+
+    Task findTaskById(String id);
+
+    void deleteTaskByProject(String projectId);
+
+    void deleteTaskById(String id);
 }

@@ -28,11 +28,13 @@
             <div class="card text-center">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-6">
                             <a class="btn btn-success" href="/create-task" role="button">Add new task</a>
                         </div>
-                        <div class="col-sm-6">
-                            <a class="btn btn-danger" href="#" role="button">Delete project</a>
+                        <div class="col-6">
+                            <form th:action="@{'/delete-project/' + ${currentProject.id}}" method="get">
+                                <button type="submit" class="btn btn-danger">Delete project</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -52,6 +54,7 @@
                             <th scope="col">Description</th>
                             <th scope="col">Status</th>
                             <th scope="col">Priority</th>
+                            <th scope="col">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -61,6 +64,14 @@
                                 <td th:text="${task.description}"></td>
                                 <td th:text="${task.status}"></td>
                                 <td th:text="${task.priority}"></td>
+                                <td>
+<!--                                    <form th:action="@{'/edit-task/' + ${task.id}}" method="get">-->
+<!--                                        <button type="submit" class="btn btn-primary btn-sm">Edit</button>-->
+<!--                                    </form>-->
+                                    <form th:action="@{'/delete-task/' + ${task.id}}" method="get">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                                    </form>
+                                </td>
                             </tr>
                         </th:block>
                         </tbody>

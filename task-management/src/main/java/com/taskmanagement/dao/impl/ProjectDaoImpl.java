@@ -38,4 +38,12 @@ public class ProjectDaoImpl implements ProjectDao {
                 Criteria.where("id").is(id)));
         return mongoTemplate.findOne(query, Project.class);
     }
+
+    @Override
+    public void deleteProject(String id) {
+        Query query = new Query();
+        query.addCriteria(new Criteria().andOperator(
+                Criteria.where("id").is(id)));
+        mongoTemplate.remove(query, Project.class);
+    }
 }

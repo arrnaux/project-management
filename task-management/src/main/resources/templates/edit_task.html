@@ -23,16 +23,20 @@
         <div class="container">
             <div class="card text-center">
                 <div class="card-body">
-                    <h1>Create new task</h1>
-                    <form th:action="@{/create-task}" th:object="${task}" method="post">
-                        <br/>
+                    <h1>Edit task</h1>
+                    <form th:action="@{/edit-task}" th:object="${task}" method="post">
+                        <input type="hidden"
+                               th:field="*{id}"
+                               name="id"
+                               class="form-control"
+                               th:value= "${currentTask.id}">
                         <div class="form-group">
                             <input type="text"
                                    th:field="*{name}"
                                    name="name"
                                    class="form-control"
                                    autofocus="autofocus"
-                                   placeholder="Name"
+                                   th:value= "${currentTask.name}"
                                    required/>
                         </div>
                         <br/>
@@ -42,7 +46,7 @@
                                    name="description"
                                    class="form-control"
                                    autofocus="autofocus"
-                                   placeholder="Description"/>
+                                   th:value= "${currentTask.description}" />
                         </div>
                         <br/>
                         <div class="row">
@@ -51,7 +55,8 @@
                                 <select th:field="*{status}"
                                         name="status"
                                         id="status"
-                                        class="form-control">
+                                        class="form-control"
+                                        th:value= "${currentTask.status}">
                                     <option value="OPEN">Open</option>
                                     <option value="IN_PROGRESS">In progress</option>
                                     <option value="DONE">Done</option>
@@ -65,7 +70,8 @@
                                 <select th:field="*{priority}"
                                         name="priority"
                                         id="priority"
-                                        class="form-control">
+                                        class="form-control"
+                                        th:value= "${currentTask.priority}">
                                     <option value="LOW">Low</option>
                                     <option value="MEDIUM">Medium</option>
                                     <option value="HIGH">High</option>
@@ -77,7 +83,7 @@
                             <input type="submit"
                                    name="register-submit"
                                    class="btn btn-primary form-btn"
-                                   value="Create"/>
+                                   value="Edit"/>
                         </div>
                         <br/>
                         <div th:if="${status == 'errorForm'}">

@@ -10,4 +10,6 @@ public interface ProjectDao {
     List<Project> findProjectsByUser(String userId);
 
     Project findProjectById(String id);
+
+    void deleteProject(String id);
 }

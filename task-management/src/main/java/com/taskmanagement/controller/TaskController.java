@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -64,6 +65,57 @@ public class TaskController {
                     return "create_task";
                 }
             }
+        }
+        return "redirect:login";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/edit-task/{id}")
+    public String getEditTask(@PathVariable("id") String taskId, Model model, HttpSession session) {
+        if (session.getAttribute("user") != null) {
+            Task currentTask = taskDao.findTaskById(taskId);
+            model.addAttribute("currentTask", currentTask);
+            model.addAttribute("user", session.getAttribute("user"));
+            model.addAttribute("task", new Task());
+            return "edit_task";
+        }
+        return "redirect:/login";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/edit-task")
+    public String editTask(@ModelAttribute Task task, HttpSession session, Model model) {
+        if (session.getAttribute("user") != null) {
+            if(session.getAttribute("currentProject") == null) {
+                model.addAttribute("status", "errorProject");
+                return "edit_task";
+            } else {
+                if (!task.getName().equals("")) {
+                    User currentUser = (User) session.getAttribute("user");
+                    task.setUsersId(new HashSet<>());
+                    task.getUsersId().add(currentUser.getId());
+                    Project currentProject = (Project) session.getAttribute("currentProject");
+                    task.setProjectId(currentProject.getId());
+                    taskDao.saveTask(task);
+                    currentProject.getTasksId().add(task.getId());
+                    projectDao.saveProject(currentProject);
+                    currentUser.getTasksId().add(task.getId());
+                    userDao.saveUser(currentUser);
+                    session.setAttribute("user", currentUser);
+                    model.addAttribute("user", currentUser);
+                    return "redirect:projects";
+                } else {
+                    model.addAttribute("status", "errorForm");
+                    return "edit_task";
+                }
+            }
+        }
+        return "redirect:login";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/delete-task/{id}")
+    public String deleteProject(@PathVariable("id") String taskId, HttpSession session) {
+        if (session.getAttribute("user") != null) {
+            taskDao.deleteTaskById(taskId);
+            return "redirect:/projects";
         }
         return "redirect:login";
     }
