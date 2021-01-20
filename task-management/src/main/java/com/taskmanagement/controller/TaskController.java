@@ -117,6 +117,6 @@ public class TaskController {
             taskDao.deleteTaskById(taskId);
             return "redirect:/projects";
         }
-        return "redirect:login";
+        return "redirect:/login";
     }
 }

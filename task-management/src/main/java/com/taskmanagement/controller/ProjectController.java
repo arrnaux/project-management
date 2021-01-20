@@ -87,7 +87,7 @@ public class ProjectController {
             model.addAttribute("user", session.getAttribute("user"));
             return "project";
         }
-        return "redirect:login";
+        return "redirect:/login";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/delete-project/{id}")
@@ -97,7 +97,7 @@ public class ProjectController {
             taskDao.deleteTaskByProject(projectId);
             return "redirect:/projects";
         }
-        return "redirect:login";
+        return "redirect:/login";
     }
 
 }
